@@ -1,0 +1,20 @@
+{
+  "name": "chat-backend",
+  "version": "1.0.0",
+  "description": "",
+  "main": "handler.js",
+  "directories": {
+    "test": "test"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "@types/aws-lambda": "^8.10.26",
+    "serverless-offline": "^4.10.5",
+    "serverless-plugin-typescript": "^1.1.7",
+    "typescript": "^3.4.5"
+  }
+}
