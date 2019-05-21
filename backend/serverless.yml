@@ -1,4 +1,4 @@
-service: chat
+service: chat-app
 
 provider:
   name: aws
@@ -14,10 +14,8 @@ functions:
 plugins:
   - serverless-plugin-typescript
   - serverless-offline
-  - serverless-plugin-include-dependencies
 # package:
 #   exclude:
 #     - node_modules/**/*
 #   include:
 #     src/handlers/*.ts
-    
