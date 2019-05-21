@@ -1,7 +1,7 @@
 export const ENV = {
-  PGUSER: process.env.PGUSER,
-  PGDATABASE: process.env.PGDATABASE,
-  PGPASSWORD: process.env.PGPASSWORD,
-  PGHOST: process.env.PGHOST,
-  PGPORT: process.env.PGPORT,
+  PGUSER: process.env.PGUSER || 'postgres',
+  PGDATABASE: process.env.PGDATABASE || 'postgres',
+  PGPASSWORD: process.env.PGPASSWORD || 'password',
+  PGHOST: process.env.PGHOST || 'localhost',
+  PGPORT: process.env.PGPORT || '5432',
 };
