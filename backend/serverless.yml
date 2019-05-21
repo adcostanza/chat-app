@@ -1,26 +1,9 @@
-# Welcome to Serverless!
-#
-# This file is the main config file for your service.
-# It's very minimal at this point and uses default values.
-# You can always add more config options for more control.
-# We've included some commented out config examples here.
-# Just uncomment any of them to get that config option.
-#
-# For full config options, check the docs:
-#    docs.serverless.com
-#
-# Happy Coding!
-
-service: aws-nodejs # NOTE: update this with your service name
-
-# You can pin your service to only deploy with a specific Serverless version
-# Check out our docs for more details
-# frameworkVersion: "=X.X.X"
+service: chat
 
 provider:
   name: aws
   runtime: nodejs10.x
-region: us-west-1
+  region: us-west-1
 functions:
   getMessages:
     handler: src/handlers/messages.get
@@ -31,8 +14,10 @@ functions:
 plugins:
   - serverless-plugin-typescript
   - serverless-offline
-package:
-  exclude:
-    - node_modules/**/*
-  include:
-    src/handlers/*.ts
+  - serverless-plugin-include-dependencies
+# package:
+#   exclude:
+#     - node_modules/**/*
+#   include:
+#     src/handlers/*.ts
+    

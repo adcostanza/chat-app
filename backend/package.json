@@ -13,8 +13,13 @@
   "license": "ISC",
   "devDependencies": {
     "@types/aws-lambda": "^8.10.26",
+    "prettier": "^1.17.1",
     "serverless-offline": "^4.10.5",
+    "serverless-plugin-include-dependencies": "^3.2.1",
     "serverless-plugin-typescript": "^1.1.7",
     "typescript": "^3.4.5"
+  },
+  "dependencies": {
+    "pg": "^7.11.0"
   }
 }
