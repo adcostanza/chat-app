@@ -11,6 +11,12 @@ functions:
       - http:
           path: messages
           method: get
+  writeMessage:
+    handler: src/handlers/writeMessage.writeMessage
+    events:
+      - http:
+          path: messages
+          method: post
 plugins:
   - serverless-plugin-typescript
   - serverless-offline

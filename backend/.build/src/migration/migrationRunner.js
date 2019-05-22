@@ -2,6 +2,7 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.runMigrations = async (queryRunner, ...migrations) => {
     const migrationsExist = await migrationsTableExists(queryRunner);
+    console.log(migrationsExist ? 't' : 'f');
     if (migrationsExist) {
         const completedMigrations = (await queryRunner.query(`SELECT name from migrations`)).map(migration => migration.name);
         for (let migration of migrations) {
