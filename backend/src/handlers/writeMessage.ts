@@ -10,6 +10,7 @@ const writeMessage: Handler = async (
   context: Context,
   callback: Callback
 ) => {
+  context.callbackWaitsForEmptyEventLoop = false;
   await postgres.connect();
   const { token } = event.headers;
   if (token == null) {
@@ -26,7 +27,7 @@ const writeMessage: Handler = async (
 
   const { fromUser, toUsers, message } = body;
   const queryRunner = await postgres.getQueryRunner();
-  writeMessageStore({ fromUser, toUsers, message, queryRunner });
+  await writeMessageStore({ fromUser, toUsers, message, queryRunner });
 
   return {
     statusCode: 200,
