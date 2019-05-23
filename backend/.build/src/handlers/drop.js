@@ -1,17 +1,18 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 const postgres_1 = require("../db/postgres");
-const get = async (event, context, callback) => {
+const drop_1 = require("../db/drop");
+const dropTables = async (event, context, callback) => {
     context.callbackWaitsForEmptyEventLoop = false;
     await postgres_1.postgres.connect();
     const queryRunner = await postgres_1.postgres.getQueryRunner();
-    const messages = (await queryRunner.query('SELECT * from messages'));
+    await drop_1.drop(queryRunner);
     const response = {
         statusCode: 200,
         body: JSON.stringify({
-            messages,
+            complete: true,
         }),
     };
     return response;
 };
-exports.get = get;
+exports.dropTables = dropTables;

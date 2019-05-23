@@ -1,5 +1,9 @@
+import { QueryRunner } from 'typeorm';
 import { Callback, Context, Handler } from 'aws-lambda';
 import { postgres } from '../db/postgres';
+import { validateWriteMessage } from './validation';
+import { Message } from '../model/model';
+import { writeMessageStore } from '../db/writeMessage';
 
 const writeMessage: Handler = async (
   event: any,
@@ -14,17 +18,19 @@ const writeMessage: Handler = async (
       body: 'Unauthorized',
     };
   }
-  const body = JSON.parse(event.body);
-  if (!body.message) {
-    return {
-      statusCode: 400,
-      body: 'message is a required property',
-    };
+  const body = JSON.parse(event.body) as Exclude<Message, 'id'>;
+  const errors = validateWriteMessage(body);
+  if (errors != null) {
+    return errors;
   }
+
+  const { fromUser, toUsers, message } = body;
+  const queryRunner = await postgres.getQueryRunner();
+  writeMessageStore({ fromUser, toUsers, message, queryRunner });
 
   return {
     statusCode: 200,
-    body: body.message
+    body: JSON.stringify({ message: body.message }),
   };
 };
 

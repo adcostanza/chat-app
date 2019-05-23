@@ -1,6 +1,8 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 const postgres_1 = require("../db/postgres");
+const validation_1 = require("./validation");
+const writeMessage_1 = require("../db/writeMessage");
 const writeMessage = async (event, context, callback) => {
     await postgres_1.postgres.connect();
     const { token } = event.headers;
@@ -11,15 +13,16 @@ const writeMessage = async (event, context, callback) => {
         };
     }
     const body = JSON.parse(event.body);
-    if (!body.message) {
-        return {
-            statusCode: 400,
-            body: 'message is a required property',
-        };
+    const errors = validation_1.validateWriteMessage(body);
+    if (errors != null) {
+        return errors;
     }
+    const { fromUser, toUsers, message } = body;
+    const queryRunner = await postgres_1.postgres.getQueryRunner();
+    writeMessage_1.writeMessageStore({ fromUser, toUsers, message, queryRunner });
     return {
         statusCode: 200,
-        body: body.message
+        body: JSON.stringify({ message: body.message }),
     };
 };
 exports.writeMessage = writeMessage;

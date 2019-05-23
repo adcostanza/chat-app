@@ -17,6 +17,13 @@ functions:
       - http:
           path: messages
           method: post
+
+  drop:
+    handler: src/handlers/drop.dropTables
+    events:
+      - http:
+          path: drop
+          method: get
 plugins:
   - serverless-plugin-typescript
   - serverless-offline
