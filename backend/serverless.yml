@@ -60,8 +60,3 @@ functions:
 plugins:
   - serverless-plugin-typescript
   - serverless-offline
-# package:
-#   exclude:
-#     - node_modules/**/*
-#   include:
-#     src/handlers/*.ts
