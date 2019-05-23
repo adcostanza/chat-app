@@ -32,6 +32,11 @@ provider:
     PGPASSWORD: ${self:custom.pgPassword.${self:provider.stage}}
     PGPORT: ${self:custom.pgPort.${self:provider.stage}}
     PGUSER: ${self:custom.pgUser.${self:provider.stage}}
+  iamRoleStatements:
+    -  Effect: "Allow"
+       Action: 
+         - "rds:*"
+       Resource: "*"    
 functions:
   getMessages:
     handler: src/handlers/messages.get
