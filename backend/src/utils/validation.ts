@@ -1,6 +1,10 @@
 import { Message } from '../model/model';
 export const validateWriteMessage = (body: Message) => {
   const errors = [];
+  if (body == null) {
+    //@ts-ignore
+    body = {};
+  }
   if (!body.message) {
     errors.push('message is a required property');
   }

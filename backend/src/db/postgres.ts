@@ -1,7 +1,7 @@
 
 import { Connection, getConnectionManager, QueryRunner, createConnection } from "typeorm";
 import { PostgresConnectionOptions } from "typeorm/driver/postgres/PostgresConnectionOptions";
-import { ENV } from "../env";
+import { ENV } from "../utils/env";
 import { runMigrations } from "../migration/migrationRunner";
 import { migrations } from "../migration/migrations";
 

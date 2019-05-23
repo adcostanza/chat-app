@@ -50,7 +50,12 @@ functions:
       - http:
           path: messages
           method: post
-
+  login:
+    handler: src/handlers/login.login
+    events:
+      - http:
+          path: login
+          method: post
   drop:
     handler: src/handlers/drop.dropTables
     events:
