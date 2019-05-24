@@ -1,11 +1,11 @@
-import { postgres } from '../db/postgres';
-import { Store } from '../db/store';
-import { Message } from '../model/model';
-import { authenticateAndGetClaims, Claims } from '../utils/claims';
-import { createHandler } from '../utils/lambda';
-import { validateWriteMessageBody } from '../utils/validation';
+import { postgres } from "../db/postgres";
+import { Store } from "../db/store";
+import { Message } from "../model/model";
+import { authenticateAndGetClaims, Claims } from "../utils/claims";
+import { createHandler } from "../utils/lambda";
+import { validateWriteMessageBody } from "../utils/validation";
 
-export type WriteMessageBody = Exclude<Exclude<Message, 'id'>, 'fromUser'>;
+export type WriteMessageBody = Exclude<Exclude<Message, "id">, "fromUser">;
 
 export type WriteMessageProps = { body: WriteMessageBody; record: Claims };
 
@@ -19,19 +19,19 @@ const writeMessageLogic = async (props: WriteMessageProps) => {
     fromUser: username,
     toUsers,
     message,
-    queryRunner,
+    queryRunner
   });
 
   return {
     statusCode: 200,
-    body: JSON.stringify({ success: true }),
+    body: JSON.stringify({ success: true })
   };
 };
 
 const operations = [
   authenticateAndGetClaims,
   validateWriteMessageBody,
-  writeMessageLogic,
+  writeMessageLogic
 ];
 
 const writeMessage = createHandler({ initialRecord: {}, operations });

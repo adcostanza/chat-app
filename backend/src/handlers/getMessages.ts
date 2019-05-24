@@ -1,8 +1,7 @@
-import { Callback, Context, Handler } from 'aws-lambda';
-import { postgres } from '../db/postgres';
-import { authenticateAndGetClaims, Claims } from '../utils/claims';
-import { Store } from '../db/store';
-import { createHandler } from '../utils/lambda';
+import { postgres } from "../db/postgres";
+import { authenticateAndGetClaims, Claims } from "../utils/claims";
+import { Store } from "../db/store";
+import { createHandler } from "../utils/lambda";
 
 type GetMessagesProps = { record: Claims };
 
@@ -13,8 +12,8 @@ const getMessagesLogic = async (props: GetMessagesProps) => {
   return {
     statusCode: 200,
     body: JSON.stringify({
-      messages,
-    }),
+      messages
+    })
   };
 };
 

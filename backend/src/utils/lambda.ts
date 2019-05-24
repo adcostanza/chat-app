@@ -11,13 +11,6 @@ export interface LambdaResponse {
   body: string;
 }
 
-export const createResponse = (statusCode: number, body: any): LambdaResponse => {
-  return {
-    statusCode,
-    body: JSON.stringify(body)
-  };
-};
-
 export type OperationProps<B extends object, R, H> = { body?: B; record?: R; headers?: H };
 export type Operation<B extends object, R, H> = (
   props: OperationProps<B, R, H>
