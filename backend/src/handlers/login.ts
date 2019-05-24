@@ -1,34 +1,33 @@
-import { Callback, Context, Handler } from 'aws-lambda';
-import { createToken } from '../utils/jwt';
+import { Callback, Context, Handler } from "aws-lambda";
+import { createToken } from "../utils/jwt";
+import { parseBody } from "../utils/body";
+import { validateLoginBody } from "../utils/validation";
 
-const login: Handler = async (event: any, context: Context, callback: Callback) => {
+export interface LoginBody {
+  username: string;
+}
+
+const login: Handler = async (
+  event: any,
+  context: Context,
+  callback: Callback
+) => {
   context.callbackWaitsForEmptyEventLoop = false;
 
-  //TODO put into a middleware
   try {
-    JSON.parse(event.body);
-  } catch (e) {
-    return {
-      statusCode: 400,
-      body: JSON.stringify({ error: 'invalid JSON' }),
-    };
-  }
+    const body = parseBody<LoginBody>(event);
+    validateLoginBody(body);
 
-  const body = JSON.parse(event.body);
-  if (!body || !body.username) {
+    const accessToken = createToken(body.username);
     return {
-      statusCode: 400,
-      body: JSON.stringify({ errors: 'username is a required property' }),
+      statusCode: 200,
+      body: JSON.stringify({
+        accessToken
+      })
     };
+  } catch (e) {
+    return e;
   }
-  const accessToken = createToken(body.username);
-  const response = {
-    statusCode: 200,
-    body: JSON.stringify({
-      accessToken,
-    }),
-  };
-  return response;
 };
 
 export { login };
