@@ -41,7 +41,7 @@ Create a postgreSQL database on RDS and configure it's VPC settings and master p
 
 The environment variables required can be seen below:
 
-````
+```
 PGUSER
 PGDATABASE
 PGPASSWORD
