@@ -20,8 +20,10 @@ const createQueryResult = <T>(result: T) => {
 };
 test("getMessages", async () => {
   const message = { message: "hello!", fromUser: "adam", toUsers: ["john"] };
+  //todo fix this, postgresql is returning lower case column names
+  const messageSQL = { message: "hello!", fromuser: "adam", tousers: ["john"] };
   createQueryResult([
-    message
+    messageSQL
   ]);
   const event: { body: string; headers?: { token: string } } = {
     body: JSON.stringify({
