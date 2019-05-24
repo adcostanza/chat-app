@@ -51,7 +51,8 @@ PGPORT
 
 These variables must be stored in SSM as seen in the `serverless.yml` config. Along with these additional security variables:
 
-```ssm:vpcSecurityGroup
+```
+ssm:vpcSecurityGroup
 ssm:vpcSubnet1
 ssm:vpcSubnet2
 ```
