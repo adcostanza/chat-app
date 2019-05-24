@@ -17,26 +17,40 @@ export const createResponse = (statusCode: number, body: any): LambdaResponse =>
   };
 };
 
-export type OperationProps<B, R> = { body: B; record?: R };
-export type Operation<B, R> = (
-  props: OperationProps<B, R>
-) => OperationProps<B, R> | LambdaResponse;
-export const createHandler = <B, R>(props: {
-  operations: Operation<B, R>[];
+export type OperationProps<B, R, H> = { body?: B; record?: R; headers?: H };
+export type Operation<B, R, H> = (
+  props: OperationProps<B, R, H>
+) =>
+  | OperationProps<B, R, H>
+  | LambdaResponse
+  | Promise<OperationProps<B, R, H>>
+  | Promise<LambdaResponse>;
+export const createHandler = <B, R, H>(props: {
+  operations: Operation<B, R, H>[];
   initialRecord?: R;
 }): Handler => {
   const { operations, initialRecord } = props;
   return async (event: any, context: Context) => {
     context.callbackWaitsForEmptyEventLoop = false;
     try {
-      return operations.reduce(
-        ({ body, record }, operation) => {
-          return operation({ body, record });
-        },
-        { body: parseBody<B>(event), record: initialRecord }
-      );
+      let body = parseBody<B>(event);
+      let record = initialRecord;
+      let { headers } = event;
+      for (let operation of operations) {
+        const result = await operation({ body, record, headers });
+        if (isLambdaResponse(result)) {
+          return result;
+        }
+        body = result.body;
+        record = result.record;
+        headers = result.headers;
+      }
     } catch (e) {
       return e;
     }
   };
 };
+
+function isLambdaResponse(obj: any): obj is LambdaResponse {
+  return obj.statusCode !== undefined;
+}

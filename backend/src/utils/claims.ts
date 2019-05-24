@@ -1,25 +1,31 @@
-import { decodeToken } from "./jwt";
-import { LambdaEvent } from "./lambda";
+import { decodeToken } from './jwt';
+import { LambdaEvent, OperationProps } from './lambda';
 
 export interface Claims {
   username: string;
 }
 
-export const authenticateAndGetClaims = (event: LambdaEvent): Claims => {
-  const { token } = event.headers;
+interface HeadersWithToken {
+  token: string;
+}
+export const authenticateAndGetClaims = <T, R>(
+  props: OperationProps<T, R, HeadersWithToken>
+): OperationProps<T, R, HeadersWithToken> => {
+  const { headers } = props;
+  const { token } = headers;
   if (token == null) {
     throw {
       statusCode: 500,
-      body: JSON.stringify({ error: "Unauthorized" })
+      body: JSON.stringify({ error: 'Unauthorized' }),
     };
   }
 
   try {
-    return decodeToken(token);
+    return { ...props, record: decodeToken(token) };
   } catch (e) {
     throw {
       statusCode: 500,
-      body: JSON.stringify({ error: "Unauthorized" })
+      body: JSON.stringify({ error: 'Unauthorized' }),
     };
   }
 };
