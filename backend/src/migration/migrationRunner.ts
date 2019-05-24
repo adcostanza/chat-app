@@ -1,4 +1,4 @@
-import { QueryRunner } from 'typeorm';
+import { QueryRunner } from "typeorm";
 
 export interface Migration {
   name: string;
@@ -16,7 +16,9 @@ export const runMigrations = async (
 
     for (let migration of migrations) {
       if (completedMigrations.find(o => o === migration.name)) {
-        console.log(`Already completed migration '${migration.name}', continuing...`);
+        console.log(
+          `Already completed migration '${migration.name}', continuing...`
+        );
         continue;
       }
       console.log(completedMigrations);
@@ -26,7 +28,7 @@ export const runMigrations = async (
         `INSERT INTO migrations (name) values ('${migration.name}')`
       );
     }
-    console.log('Migrations complete');
+    console.log("Migrations complete");
   } else {
     //create migrations table
     await queryRunner.query(`CREATE TABLE migrations (
@@ -42,5 +44,5 @@ const migrationsTableExists = async (queryRunner: QueryRunner) => {
   const [{ migrations }] = await queryRunner.query(
     `SELECT to_regclass('migrations') as migrations`
   );
-  return migrations === 'migrations';
+  return migrations === "migrations";
 };

@@ -1,6 +1,5 @@
-
-import { QueryRunner } from 'typeorm';
-import { Migration } from './migrationRunner';
+import { QueryRunner } from "typeorm";
+import { Migration } from "./migrationRunner";
 
 const createMessagesTableMigration = async (queryRunner: QueryRunner) => {
   await queryRunner.query(`create table messages (
@@ -12,5 +11,5 @@ const createMessagesTableMigration = async (queryRunner: QueryRunner) => {
 };
 
 export const migrations: Migration[] = [
-  { name: 'messages', migration: createMessagesTableMigration },
+  { name: "messages", migration: createMessagesTableMigration }
 ];
