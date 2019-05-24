@@ -1,17 +1,19 @@
-import { Message } from '../model/model';
-import { LoginBody, LoginProps } from '../handlers/login';
+import { LoginProps } from '../handlers/login';
+import { WriteMessageProps } from '../handlers/writeMessage';
 
-export const validateLoginBody = ({ body }: LoginProps) => {
+export const validateLoginBody = (props: LoginProps) => {
+  const { body } = props;
   if (!body || !body.username) {
     throw {
       statusCode: 400,
       body: JSON.stringify({ errors: 'username is a required property' }),
     };
   }
-  return { body };
+  return props;
 };
-export const validateWriteMessageBody = (body: Message) => {
+export const validateWriteMessageBody = (props: WriteMessageProps) => {
   const errors = [];
+  const { body } = props;
   if (body == null) {
     //@ts-ignore
     body = {};
@@ -29,4 +31,6 @@ export const validateWriteMessageBody = (body: Message) => {
       body: JSON.stringify({ errors }),
     };
   }
+
+  return props;
 };
