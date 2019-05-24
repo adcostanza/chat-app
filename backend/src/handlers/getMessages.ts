@@ -3,7 +3,11 @@ import { postgres } from "../db/postgres";
 import { Message } from "../model/model";
 import { decodeToken } from "../utils/jwt";
 
-const getMessages: Handler = async (event: any, context: Context, callback: Callback) => {
+const getMessages: Handler = async (
+  event: any,
+  context: Context,
+  callback: Callback
+) => {
   context.callbackWaitsForEmptyEventLoop = false;
   //TODO put into a middleware
   const { token } = event.headers;
@@ -27,8 +31,8 @@ const getMessages: Handler = async (event: any, context: Context, callback: Call
   await postgres.connect();
   const queryRunner = await postgres.getQueryRunner();
   const messages = (await queryRunner.query(
-    `SELECT * from messages WHERE '${claims.username}' = ANY(toUsers)`
-  )) as Message[];
+    `SELECT message, fromUser, toUsers from messages WHERE '${claims.username}' = ANY(toUsers)`
+  )) as Exclude<Message, "id">[];
   const response = {
     statusCode: 200,
     body: JSON.stringify({

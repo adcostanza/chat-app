@@ -3,6 +3,7 @@ import { Context } from "aws-lambda";
 import { getMessages } from "../src/handlers/getMessages";
 import { Message } from "../src/model/model";
 import { writeMessage } from "../src/handlers/writeMessage";
+import { dropTables } from "../src/handlers/dropTables";
 
 interface LambdaEvent {
   body?: string;
@@ -23,6 +24,8 @@ test("crud around messages", async () => {
       username: "adam"
     })
   };
+  await dropTables({}, {} as Context, () => {
+  });
   const response = await login(event, {} as Context, () => {
   });
   const token = JSON.parse(response.body).accessToken;
