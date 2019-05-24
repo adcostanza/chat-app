@@ -31,8 +31,15 @@ const getMessages: Handler = async (
   await postgres.connect();
   const queryRunner = await postgres.getQueryRunner();
   const messages = (await queryRunner.query(
-    `SELECT message, fromUser, toUsers from messages WHERE '${claims.username}' = ANY(toUsers)`
-  )) as Exclude<Message, "id">[];
+    `SELECT message, fromUser, toUsers from messages WHERE '${
+      claims.username
+      }' = ANY(toUsers)`
+    //TODO figure out case insensitivity
+  )).map((row: { message: string, fromuser: string, tousers: string[] }) => ({
+    message: row.message,
+    fromUser: row.fromuser,
+    toUsers: row.tousers
+  }));
   const response = {
     statusCode: 200,
     body: JSON.stringify({
