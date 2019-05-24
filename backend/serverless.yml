@@ -39,7 +39,7 @@ provider:
        Resource: "*"    
 functions:
   getMessages:
-    handler: src/handlers/messages.get
+    handler: src/handlers/getMessages.getMessages
     events:
       - http:
           path: messages

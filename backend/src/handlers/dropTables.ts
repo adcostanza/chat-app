@@ -1,7 +1,6 @@
 import { Callback, Context, Handler } from 'aws-lambda';
-import { postgres } from '../db/postgres';
-import { Message } from '../model/model';
 import { drop } from '../db/drop';
+import { postgres } from '../db/postgres';
 
 const dropTables: Handler = async (event: any, context: Context, callback: Callback) => {
   context.callbackWaitsForEmptyEventLoop = false;
