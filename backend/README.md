@@ -46,13 +46,15 @@ PGUSER
 PGDATABASE
 PGPASSWORD
 PGHOST
-PGPORT```
+PGPORT
+```
 
 These variables must be stored in SSM as seen in the `serverless.yml` config. Along with these additional security variables:
 
 ```ssm:vpcSecurityGroup
 ssm:vpcSubnet1
-ssm:vpcSubnet2```
+ssm:vpcSubnet2
+```
 
 Setting up each can be done easily via `aws-cli` (https://serverless.com/blog/serverless-secrets-api-keys/):
 ```
@@ -64,3 +66,5 @@ aws ssm put-parameter --name supermanToken --type String --value mySupermanToken
 ## Deploying
 Make sure you get AWS connected to serverless and then run the following:
 ````
+npm run deploy
+```
