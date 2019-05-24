@@ -50,6 +50,7 @@ test("crud around messages", async () => {
 
   const result = await getMessages({ headers: { token: tokenJohn } }, {} as Context, () => {
   });
+  console.log(result);
   const { messages }: { messages: Message[] } = JSON.parse(result.body);
   expect(messages[0]).toMatchObject(message);
 });

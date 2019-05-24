@@ -1,5 +1,6 @@
-import { Context, Handler } from 'aws-lambda';
-import { parseBody } from './body';
+import { Context, Handler } from "aws-lambda";
+import { parseBody } from "./body";
+
 export interface LambdaEvent {
   body?: string;
   headers?: { token: string };
@@ -13,19 +14,19 @@ export interface LambdaResponse {
 export const createResponse = (statusCode: number, body: any): LambdaResponse => {
   return {
     statusCode,
-    body: JSON.stringify(body),
+    body: JSON.stringify(body)
   };
 };
 
-export type OperationProps<B, R, H> = { body?: B; record?: R; headers?: H };
-export type Operation<B, R, H> = (
+export type OperationProps<B extends object, R, H> = { body?: B; record?: R; headers?: H };
+export type Operation<B extends object, R, H> = (
   props: OperationProps<B, R, H>
 ) =>
   | OperationProps<B, R, H>
   | LambdaResponse
   | Promise<OperationProps<B, R, H>>
   | Promise<LambdaResponse>;
-export const createHandler = <B, R, H>(props: {
+export const createHandler = <B extends object, R, H>(props: {
   operations: Operation<B, R, H>[];
   initialRecord?: R;
 }): Handler => {
@@ -33,7 +34,10 @@ export const createHandler = <B, R, H>(props: {
   return async (event: any, context: Context) => {
     context.callbackWaitsForEmptyEventLoop = false;
     try {
-      let body = parseBody<B>(event);
+      let body: B;
+      if (event.body != null) {
+        body = parseBody<B>(event);
+      }
       let record = initialRecord;
       let { headers } = event;
       for (let operation of operations) {
