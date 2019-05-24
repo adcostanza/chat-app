@@ -9,7 +9,6 @@ export const runMigrations = async (
   ...migrations: Migration[]
 ) => {
   const migrationsExist = await migrationsTableExists(queryRunner);
-  console.log(migrationsExist ? 't' : 'f');
   if (migrationsExist) {
     const completedMigrations = ((await queryRunner.query(
       `SELECT name from migrations`
