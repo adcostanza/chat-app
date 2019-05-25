@@ -1,5 +1,5 @@
 import { decodeToken } from "./jwt";
-import { Request } from "./lambda";
+import { createHandler, HandlerFn, Middleware, Request } from "./lambda";
 
 export interface Claims {
   username: string;
@@ -30,3 +30,12 @@ export const authenticateAndGetClaims = <T extends object, R>(
     };
   }
 };
+
+export const createHandlerWithAuth = <T extends object>(props: {
+  middleware: Middleware<T, Claims, HeadersWithToken>[];
+  handlerFn: HandlerFn<T, Claims, HeadersWithToken>;
+}) =>
+  createHandler<T, Claims, HeadersWithToken>({
+    ...props,
+    initialRecord: { username: null }
+  });

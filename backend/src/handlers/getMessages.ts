@@ -1,16 +1,13 @@
 import { postgres } from "../db/postgres";
 import {
   authenticateAndGetClaims,
-  Claims,
-  HeadersWithToken
+  createHandlerWithAuth
 } from "../utils/claims";
 import { Store } from "../db/store";
-import { createHandler } from "../utils/lambda";
 
 const middleware = [authenticateAndGetClaims];
 
-const getMessages = createHandler<{}, Claims, HeadersWithToken>({
-  initialRecord: { username: null },
+const getMessages = createHandlerWithAuth<{}>({
   middleware,
   handlerFn: async request => {
     await postgres.connect();

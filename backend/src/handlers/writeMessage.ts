@@ -3,9 +3,10 @@ import { Store } from "../db/store";
 import {
   authenticateAndGetClaims,
   Claims,
+  createHandlerWithAuth,
   HeadersWithToken
 } from "../utils/claims";
-import { createHandler, Middleware } from "../utils/lambda";
+import { Middleware } from "../utils/lambda";
 import { validateWriteMessageBody } from "../utils/validation";
 
 export type WriteMessageBody = { toUsers: string[]; message: string };
@@ -15,8 +16,7 @@ const middleware: Middleware<WriteMessageBody, Claims, HeadersWithToken>[] = [
   validateWriteMessageBody
 ];
 
-const writeMessage = createHandler<WriteMessageBody, Claims, HeadersWithToken>({
-  initialRecord: { username: null },
+const writeMessage = createHandlerWithAuth<WriteMessageBody>({
   middleware,
   handlerFn: async request => {
     await postgres.connect();

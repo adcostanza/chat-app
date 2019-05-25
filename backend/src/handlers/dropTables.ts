@@ -1,11 +1,13 @@
 import { postgres } from "../db/postgres";
 import { Store } from "../db/store";
-import { authenticateAndGetClaims } from "../utils/claims";
-import { createHandler } from "../utils/lambda";
+import {
+  authenticateAndGetClaims,
+  createHandlerWithAuth
+} from "../utils/claims";
 
 const middleware = [authenticateAndGetClaims];
 
-const dropTables = createHandler({
+const dropTables = createHandlerWithAuth<{}>({
   middleware,
   handlerFn: async () => {
     await postgres.connect();
