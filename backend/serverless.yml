@@ -44,24 +44,28 @@ functions:
       - http:
           path: messages
           method: get
+          cors: true
   writeMessage:
     handler: src/handlers/writeMessage.writeMessage
     events:
       - http:
           path: messages
           method: post
+          cors: true
   login:
     handler: src/handlers/login.login
     events:
       - http:
           path: login
           method: post
+          cors: true
   drop:
     handler: src/handlers/dropTables.dropTables
     events:
       - http:
           path: drop
           method: get
+          cors: true
 plugins:
   - serverless-plugin-typescript
   - serverless-offline
