@@ -5,10 +5,8 @@ import {
 } from "../utils/claims";
 import { Store } from "../db/store";
 
-const middleware = [authenticateAndGetClaims];
-
 const getMessages = createHandlerWithAuth<{}>({
-  middleware,
+  middleware: [authenticateAndGetClaims],
   handlerFn: async request => {
     await postgres.connect();
     const queryRunner = await postgres.getQueryRunner();

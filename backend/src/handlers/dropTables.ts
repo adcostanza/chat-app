@@ -5,10 +5,8 @@ import {
   createHandlerWithAuth
 } from "../utils/claims";
 
-const middleware = [authenticateAndGetClaims];
-
 const dropTables = createHandlerWithAuth<{}>({
-  middleware,
+  middleware: [authenticateAndGetClaims],
   handlerFn: async () => {
     await postgres.connect();
     const queryRunner = await postgres.getQueryRunner();
