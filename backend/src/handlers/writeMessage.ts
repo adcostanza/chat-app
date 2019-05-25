@@ -2,22 +2,14 @@ import { postgres } from "../db/postgres";
 import { Store } from "../db/store";
 import {
   authenticateAndGetClaims,
-  Claims,
-  createHandlerWithAuth,
-  HeadersWithToken
+  createHandlerWithAuth
 } from "../utils/claims";
-import { Middleware } from "../utils/lambda";
 import { validateWriteMessageBody } from "../utils/validation";
 
 export type WriteMessageBody = { toUsers: string[]; message: string };
 
-const middleware: Middleware<WriteMessageBody, Claims, HeadersWithToken>[] = [
-  authenticateAndGetClaims,
-  validateWriteMessageBody
-];
-
 const writeMessage = createHandlerWithAuth<WriteMessageBody>({
-  middleware,
+  middleware: [authenticateAndGetClaims, validateWriteMessageBody],
   handlerFn: async request => {
     await postgres.connect();
     const { body, record } = request;

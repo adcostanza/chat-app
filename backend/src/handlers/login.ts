@@ -5,9 +5,8 @@ import { validateLoginBody } from "../utils/validation";
 export interface LoginBody {
   username: string;
 }
-const middleware = [validateLoginBody];
 const login = createHandler<LoginBody, {}, {}>({
-  middleware,
+  middleware: [validateLoginBody],
   handlerFn: request => {
     const accessToken = createToken(request.body.username);
     return {
