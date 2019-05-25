@@ -66,6 +66,6 @@ aws ssm put-parameter --name supermanToken --type String --value mySupermanToken
 
 ## Deploying
 Make sure you get AWS connected to serverless and then run the following:
-````
+```
 npm run deploy
 ```
