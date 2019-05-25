@@ -50,7 +50,7 @@ const postgresConnection = () => {
   };
   const close = async () => {
     if (conn) {
-      conn.close();
+      await conn.close();
     }
   };
   return {
