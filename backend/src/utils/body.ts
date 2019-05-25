@@ -2,7 +2,8 @@ import { LambdaEvent } from "./lambda";
 
 export const parseBody = <T>(event: LambdaEvent): T => {
   try {
-    return JSON.parse(event.body);
+    const body = event.body || '{}';
+    return JSON.parse(body);
   } catch (e) {
     throw JSON.stringify({
       statusCode: 400,
