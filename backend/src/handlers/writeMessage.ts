@@ -1,39 +1,41 @@
 import { postgres } from "../db/postgres";
 import { Store } from "../db/store";
-import { Message } from "../model/model";
-import { authenticateAndGetClaims, Claims } from "../utils/claims";
-import { createHandler } from "../utils/lambda";
+import {
+  authenticateAndGetClaims,
+  Claims,
+  createHandlerWithAuth,
+  HeadersWithToken
+} from "../utils/claims";
+import { Middleware } from "../utils/lambda";
 import { validateWriteMessageBody } from "../utils/validation";
 
-export type WriteMessageBody = Exclude<Exclude<Message, "id">, "fromUser">;
+export type WriteMessageBody = { toUsers: string[]; message: string };
 
-export type WriteMessageProps = { body: WriteMessageBody; record: Claims };
-
-const writeMessageLogic = async (props: WriteMessageProps) => {
-  await postgres.connect();
-  const { body, record } = props;
-  const { username } = record;
-  const { toUsers, message } = body;
-  const queryRunner = await postgres.getQueryRunner();
-  await Store.writeMessage({
-    fromUser: username,
-    toUsers,
-    message,
-    queryRunner
-  });
-
-  return {
-    statusCode: 200,
-    body: JSON.stringify({ success: true })
-  };
-};
-
-const operations = [
+const middleware: Middleware<WriteMessageBody, Claims, HeadersWithToken>[] = [
   authenticateAndGetClaims,
-  validateWriteMessageBody,
-  writeMessageLogic
+  validateWriteMessageBody
 ];
 
-const writeMessage = createHandler({ initialRecord: {}, operations });
+const writeMessage = createHandlerWithAuth<WriteMessageBody>({
+  middleware,
+  handlerFn: async request => {
+    await postgres.connect();
+    const { body, record } = request;
+    const { username } = record;
+    const { toUsers, message } = body;
+    const queryRunner = await postgres.getQueryRunner();
+    await Store.writeMessage({
+      fromUser: username,
+      toUsers,
+      message,
+      queryRunner
+    });
+
+    return {
+      statusCode: 200,
+      body: JSON.stringify({ success: true })
+    };
+  }
+});
 
 export { writeMessage };

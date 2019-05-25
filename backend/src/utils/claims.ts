@@ -1,17 +1,17 @@
 import { decodeToken } from "./jwt";
-import { OperationProps } from "./lambda";
+import { createHandler, HandlerFn, Middleware, Request } from "./lambda";
 
 export interface Claims {
   username: string;
 }
 
-interface HeadersWithToken {
+export interface HeadersWithToken {
   token: string;
 }
 
 export const authenticateAndGetClaims = <T extends object, R>(
-  props: OperationProps<T, R, HeadersWithToken>
-): OperationProps<T, R, HeadersWithToken> => {
+  props: Request<T, R, HeadersWithToken>
+): Request<T, R, HeadersWithToken> => {
   const { headers } = props;
   const { token } = headers;
   if (token == null) {
@@ -30,3 +30,12 @@ export const authenticateAndGetClaims = <T extends object, R>(
     };
   }
 };
+
+export const createHandlerWithAuth = <T extends object>(props: {
+  middleware: Middleware<T, Claims, HeadersWithToken>[];
+  handlerFn: HandlerFn<T, Claims, HeadersWithToken>;
+}) =>
+  createHandler<T, Claims, HeadersWithToken>({
+    ...props,
+    initialRecord: { username: null }
+  });
