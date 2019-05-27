@@ -9,6 +9,7 @@ export const ChatForm = () => {
   const [to, setTo] = useState("");
   const submit = async () => {
     await MessagesService.writeMessage([to], message);
+    setMessage("");
   };
   return (
     <div

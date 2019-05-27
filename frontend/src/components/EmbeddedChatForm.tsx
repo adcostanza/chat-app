@@ -8,6 +8,7 @@ export const EmbeddedChatForm = (props: { to: string }) => {
   const [message, setMessage] = useState("");
   const submit = async () => {
     await MessagesService.writeMessage([props.to], message);
+    setMessage("");
   };
   return (
     <div
