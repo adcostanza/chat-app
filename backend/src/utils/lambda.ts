@@ -42,7 +42,13 @@ export const createHandler = <B extends object, R, H extends object>(props: {
       for (let currentMiddleware of middleware) {
         request = await currentMiddleware(request);
       }
-      return await handlerFn(request);
+
+      const headers = {
+        "Access-Control-Allow-Origin": "*",
+        "Access-Control-Allow-Credentials": true,
+        "Content-Type": "application/json"
+      };
+      return { ...(await handlerFn(request)), headers };
     } catch (e) {
       return e;
     }

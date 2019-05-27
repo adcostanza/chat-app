@@ -2,20 +2,8 @@ import * as React from "react";
 import { Paper } from "@material-ui/core";
 import { LoginForm } from "./components/LoginForm";
 import { useState } from "react";
-interface AppState {
-  token: string;
-  setToken: (t: string) => void;
-  username: string;
-  setUsername: (u: string) => void;
-}
-export const AppState = React.createContext<AppState>({
-  token: "",
-  username: "",
-  setUsername: (u: string) => {},
-  setToken: (t: string) => {}
-});
+import { ChatForm } from "./components/ChatForm";
 export const App = () => {
-  const [token, setToken] = useState("");
   const [username, setUsername] = useState("");
   return (
     <Paper
@@ -28,9 +16,11 @@ export const App = () => {
         flexDirection: "column"
       }}
     >
-      <AppState.Provider value={{ username, token, setUsername, setToken }}>
-        <LoginForm />
-      </AppState.Provider>
+      {username == null || username == "" ? (
+        <LoginForm setUsername={(u: string) => setUsername(u)} />
+      ) : (
+        <ChatForm username={username} />
+      )}
     </Paper>
   );
 };
