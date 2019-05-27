@@ -24,7 +24,7 @@ export namespace Store {
     return (await queryRunner.query(
       `SELECT id, message, fromUser, toUsers from messages WHERE '${
         claims.username
-      }' = ANY(toUsers)`
+      }' = ANY(toUsers) OR fromUser = '${claims.username}'`
       //TODO figure out case insensitivity so we don't have to do this
     )).map(
       (row: {
