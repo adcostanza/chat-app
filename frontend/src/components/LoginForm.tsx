@@ -9,8 +9,10 @@ export const LoginForm = (props: { setUsername: (u: string) => void }) => {
   const submit = async () => {
     const result = await MessagesService.login(username);
     if (result.status === 200) {
+      //TODO this should all really be in the messages service
       const token = result.data.accessToken;
       MessagesService.token = token;
+      MessagesService.username = username;
       localStorage.setItem("token", token);
       localStorage.setItem("username", username);
       props.setUsername(username);

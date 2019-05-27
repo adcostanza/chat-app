@@ -1,10 +1,11 @@
 import * as React from "react";
+import { useEffect, useState } from "react";
 import Paper from "@material-ui/core/Paper";
 import { LoginForm } from "./components/LoginForm";
-import { useEffect, useState } from "react";
-import { ChatForm } from "./components/ChatForm";
 import AppBar from "./components/AppBar";
 import { MessagesService } from "./messagesService";
+import { Chat } from "./components/Chat";
+
 export const App = () => {
   const [username, setUsername] = useState("");
   useEffect(() => {
@@ -33,13 +34,14 @@ export const App = () => {
           justifyContent: "center",
           width: "100%",
           height: "100%",
-          flexDirection: "column"
+          flexDirection: "row",
+          flexWrap: "wrap"
         }}
       >
         {username == null || username == "" ? (
           <LoginForm setUsername={(u: string) => setUsername(u)} />
         ) : (
-          <ChatForm username={username} />
+          <Chat />
         )}
       </Paper>
     </div>

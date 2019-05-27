@@ -4,11 +4,10 @@ import TextField from "@material-ui/core/TextField";
 import Button from "@material-ui/core/Button";
 import { MessagesService } from "../messagesService";
 
-export const ChatForm = () => {
+export const EmbeddedChatForm = (props: { to: string }) => {
   const [message, setMessage] = useState("");
-  const [to, setTo] = useState("");
   const submit = async () => {
-    await MessagesService.writeMessage([to], message);
+    await MessagesService.writeMessage([props.to], message);
   };
   return (
     <div
@@ -16,19 +15,10 @@ export const ChatForm = () => {
         display: "flex",
         alignItems: "center",
         justifyContent: "center",
-        flexDirection: "column"
+        flexDirection: "column",
+        alignSelf: "flexEnd"
       }}
     >
-      <h2>Send a new message:</h2>
-      <TextField
-        id="outlined-to"
-        label="To"
-        value={to}
-        onChange={event => setTo(event.target.value)}
-        margin="normal"
-        variant="outlined"
-      />
-
       <TextField
         id="outlined-message"
         label="Message"
@@ -37,7 +27,7 @@ export const ChatForm = () => {
         margin="normal"
         variant="outlined"
       />
-      <Button onClick={submit}>Send Message</Button>
+      <Button onClick={submit}>Send Message to {props.to}</Button>
     </div>
   );
 };
