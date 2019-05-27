@@ -1,11 +1,12 @@
-var path = require('path');
-var HtmlWebpackPlugin = require('html-webpack-plugin');
-var CopyWebpackPlugin = require('copy-webpack-plugin');
+var path = require("path");
+var HtmlWebpackPlugin = require("html-webpack-plugin");
+var CopyWebpackPlugin = require("copy-webpack-plugin");
 module.exports = {
   entry: "./src/index.tsx",
   output: {
-    filename: '[chunkhash].bundle.js',
-    path: path.resolve(__dirname, 'docs')
+    filename: "[chunkhash].bundle.js",
+    //put in the base directory docs folder
+    path: path.resolve(__dirname, "..", "docs")
   },
 
   // Enable sourcemaps for debugging webpack's output.
@@ -26,17 +27,15 @@ module.exports = {
         test: /\.(jpg|png|gif|svg|pdf|ico)$/,
         use: [
           {
-            loader: 'file-loader',
+            loader: "file-loader",
             options: {
-              name: '[name]-[hash:8].[ext]'
-            },
-          },
+              name: "[name]-[hash:8].[ext]"
+            }
+          }
         ]
-      },
+      }
     ]
   },
-
-
 
   // node: {
   //     fs: "empty"
@@ -44,7 +43,7 @@ module.exports = {
 
   plugins: [
     new HtmlWebpackPlugin({
-      template: path.join(__dirname, 'src/index.html')
+      template: path.join(__dirname, "src/index.html")
     })
   ]
 };

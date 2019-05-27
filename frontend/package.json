@@ -24,7 +24,7 @@
     "webpack-dev-server": "^3.4.1"
   },
   "scripts": {
-    "build": "rm -R docs && webpack --display-error-details",
+    "build": "rm -R ../docs && webpack --display-error-details",
     "dev": "webpack-dev-server --port 4200"
   },
   "author": "Adam Costanza",
