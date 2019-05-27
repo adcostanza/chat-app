@@ -9,10 +9,12 @@ export const Messages = () => {
     return await MessagesService.getMessages();
   };
   useEffect(() => {
-    getMessages().then(messages => {
-      console.log(messages);
-      setMessages(messages);
-    });
+    setInterval(() => {
+      getMessages().then(messages => {
+        console.log(messages);
+        setMessages(messages);
+      });
+    }, 1000);
   }, []);
   // setInterval(() => {
   //   getMessages().then(messages => {
