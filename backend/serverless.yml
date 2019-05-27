@@ -1,9 +1,14 @@
 service: chat-app
 custom:
+  cors:
+    origin: "*"
+    headers:
+      - Content-Type
+      - token
   pgDatabase:
     local: postgres
     prd: ${ssm:PGDATABASE}
-  pgHost: 
+  pgHost:
     local: localhost
     prd: ${ssm:PGHOST}
   pgPassword:
@@ -33,10 +38,10 @@ provider:
     PGPORT: ${self:custom.pgPort.${self:provider.stage}}
     PGUSER: ${self:custom.pgUser.${self:provider.stage}}
   iamRoleStatements:
-    -  Effect: "Allow"
-       Action: 
-         - "rds:*"
-       Resource: "*"    
+    - Effect: "Allow"
+      Action:
+        - "rds:*"
+      Resource: "*"
 functions:
   getMessages:
     handler: src/handlers/getMessages.getMessages
@@ -44,28 +49,28 @@ functions:
       - http:
           path: messages
           method: get
-          cors: true
+          cors: ${self:custom.cors}
   writeMessage:
     handler: src/handlers/writeMessage.writeMessage
     events:
       - http:
           path: messages
           method: post
-          cors: true
+          cors: ${self:custom.cors}
   login:
     handler: src/handlers/login.login
     events:
       - http:
           path: login
           method: post
-          cors: true
+          cors: ${self:custom.cors}
   drop:
     handler: src/handlers/dropTables.dropTables
     events:
       - http:
           path: drop
           method: get
-          cors: true
+          cors: ${self:custom.cors}
 plugins:
   - serverless-plugin-typescript
   - serverless-offline
