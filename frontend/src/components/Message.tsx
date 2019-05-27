@@ -1,7 +1,6 @@
 import * as React from "react";
 import { Message } from "../model";
 import { Paper } from "@material-ui/core";
-import { UsernameContext } from "../app";
 import { EmbeddedChatForm } from "./EmbeddedChatForm";
 import { MessagesService } from "../messagesService";
 
@@ -15,12 +14,11 @@ export const MessageComponent = (props: { messages: Message[] }) => {
           flexDirection: "column",
           overflowY: "scroll",
           maxHeight: 250,
-          width: "100%"
+          width: "100%",
+          justifyContent: "flexStart"
         }}
       >
         {props.messages.map(message => {
-          console.log(MessagesService.username);
-          console.log(message.fromUser);
           const style =
             message.fromUser !== MessagesService.username
               ? { backgroundColor: "#66cdaa", alignSelf: "flexStart" }
@@ -28,10 +26,11 @@ export const MessageComponent = (props: { messages: Message[] }) => {
           return (
             <div
               style={{
-                maxWidth: "50%",
+                maxWidth: "48%",
                 padding: 6,
                 borderRadius: 6,
                 margin: 4,
+                wordWrap: "normal",
                 ...style
               }}
             >

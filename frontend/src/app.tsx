@@ -12,7 +12,9 @@ export const App = () => {
     const token = localStorage.getItem("token");
     if (token != null) {
       MessagesService.token = token;
-      setUsername(localStorage.getItem("username"));
+      const _username = localStorage.getItem("username");
+      setUsername(_username);
+      MessagesService.username = _username;
     }
   }, []);
   return (
