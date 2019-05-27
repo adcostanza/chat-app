@@ -19,7 +19,7 @@ export const LoginForm = (props: { setUsername: (u: string) => void }) => {
     }
   };
   return (
-    <>
+    <div style={{ display: "flex", alignItems: "center" }}>
       <TextField
         id="outlined-username"
         label="Username"
@@ -29,6 +29,6 @@ export const LoginForm = (props: { setUsername: (u: string) => void }) => {
         variant="outlined"
       />
       <Button onClick={submit}>Login</Button>
-    </>
+    </div>
   );
 };

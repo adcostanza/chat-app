@@ -6,29 +6,37 @@ import { MessagesService } from "../messagesService";
 
 export const MessageComponent = (props: { messages: Message[] }) => {
   const renderMessages = () => {
-    {
-      props.messages.map(message => {
-        const style =
-          message.fromUser !== MessagesService.username
-            ? { backgroundColor: "#66cdaa", alignSelf: "flexStart" }
-            : { backgroundColor: "#add8e6", alignSelf: "flexEnd" };
-        return (
-          <div
-            style={{
-              maxWidth: "48%",
-              padding: 6,
-              borderRadius: 6,
-              margin: 4,
-              wordWrap: "normal",
-              ...style
-            }}
-          >
-            {message.message}
-          </div>
-        );
-      });
-    }
+    return props.messages.map(message => {
+      const style =
+        message.fromUser !== MessagesService.username
+          ? {
+              backgroundColor: "#66cdaa",
+              alignSelf: "flexStart",
+              marginRight: "auto",
+              marginLeft: 10
+            }
+          : {
+              backgroundColor: "#add8e6",
+              alignSelf: "flexEnd",
+              marginLeft: "auto",
+              marginRight: 10
+            };
+      return (
+        <div
+          style={{
+            maxWidth: "48%",
+            padding: 8,
+            borderRadius: 6,
+            margin: 4,
+            ...style
+          }}
+        >
+          <div>{message.message}</div>
+        </div>
+      );
+    });
   };
+
   return (
     <Paper elevation={2} style={{ width: 400, height: 400, margin: 12 }}>
       <b style={{ margin: 20 }}>Chat with {props.messages[0].fromUser}</b>
@@ -39,7 +47,6 @@ export const MessageComponent = (props: { messages: Message[] }) => {
           overflowY: "scroll",
           maxHeight: 250,
           width: "100%",
-          justifyContent: "flexStart",
           alignItems: "center"
         }}
       >
