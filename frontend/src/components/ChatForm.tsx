@@ -1,5 +1,5 @@
 import * as React from "react";
-import { TextField } from "@material-ui/core";
+import TextField from "@material-ui/core/TextField";
 import Button from "@material-ui/core/Button";
 import { useState } from "react";
 import { Messages } from "./Messages";
@@ -11,7 +11,6 @@ export const ChatForm = (props: { username: string }) => {
   const [to, setTo] = useState("");
   const submit = async () => {
     await MessagesService.writeMessage([to], message);
-
   };
   console.log(username);
   return (
