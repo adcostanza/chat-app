@@ -57,7 +57,7 @@ export const MessageComponent = (props: { messages: Message[] }) => {
       >
         {renderMessages()}
       </div>
-      <EmbeddedChatForm to={props.messages[0].fromUser} />
+      <EmbeddedChatForm to={fromUser} />
     </Paper>
   );
 };
