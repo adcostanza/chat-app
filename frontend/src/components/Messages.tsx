@@ -6,14 +6,12 @@ import * as React from "react";
 export const Messages = () => {
   const [messages, setMessages] = useState([] as Message[]);
   const getMessages = async () => {
-    return await MessagesService.getMessages();
+    return setMessages(await MessagesService.getMessages());
   };
   useEffect(() => {
-    setInterval(() => {
-      getMessages().then(messages => {
-        console.log(messages);
-        setMessages(messages);
-      });
+    getMessages();
+    setInterval(async () => {
+      await getMessages();
     }, 1000);
   }, []);
   // setInterval(() => {

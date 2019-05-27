@@ -1,9 +1,11 @@
+var path = require('path');
 var HtmlWebpackPlugin = require('html-webpack-plugin');
+var CopyWebpackPlugin = require('copy-webpack-plugin');
 module.exports = {
   entry: "./src/index.tsx",
   output: {
-    filename: "bundle.js",
-    path: __dirname + "/dist"
+    filename: '[chunkhash].bundle.js',
+    path: path.resolve(__dirname, 'docs')
   },
 
   // Enable sourcemaps for debugging webpack's output.
@@ -19,9 +21,22 @@ module.exports = {
       // All files with a '.ts' or '.tsx' extension will be handled by 'awesome-typescript-loader'.
       { test: /\.json$/, loader: "json-loader" },
       { test: /\.tsx?$/, loader: "awesome-typescript-loader" },
-      { enforce: "pre", test: /\.js$/, loader: "source-map-loader" }
+      { enforce: "pre", test: /\.js$/, loader: "source-map-loader" },
+      {
+        test: /\.(jpg|png|gif|svg|pdf|ico)$/,
+        use: [
+          {
+            loader: 'file-loader',
+            options: {
+              name: '[name]-[hash:8].[ext]'
+            },
+          },
+        ]
+      },
     ]
   },
+
+
 
   // node: {
   //     fs: "empty"
@@ -29,7 +44,7 @@ module.exports = {
 
   plugins: [
     new HtmlWebpackPlugin({
-      template: __dirname + "/src/index.html"
+      template: path.join(__dirname, 'src/index.html')
     })
   ]
 };
