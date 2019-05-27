@@ -6,6 +6,7 @@ import ListItem from "@material-ui/core/ListItem";
 import ListItemIcon from "@material-ui/core/ListItemIcon";
 import ListItemText from "@material-ui/core/ListItemText";
 import ExitToApp from "@material-ui/icons/ExitToApp";
+import { GitHub } from "./GitHub";
 
 const styles = {
   list: {
@@ -24,6 +25,17 @@ const TemporaryDrawer = (
   const sideList = (
     <div className={classes.list}>
       <List>
+        <ListItem
+          onClick={() => {
+            location.replace("https://github.com/adcostanza/chat-app");
+          }}
+          button
+        >
+          <ListItemIcon>
+            <GitHub />
+          </ListItemIcon>
+          <ListItemText primary={"GitHub"} />
+        </ListItem>
         <ListItem
           onClick={() => {
             localStorage.removeItem("token");
