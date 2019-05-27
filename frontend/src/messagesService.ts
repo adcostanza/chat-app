@@ -19,4 +19,5 @@ export namespace MessagesService {
   };
 
   export let token = "";
+  export let username = "";
 }
