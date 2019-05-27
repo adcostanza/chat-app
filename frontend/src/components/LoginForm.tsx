@@ -1,4 +1,4 @@
-import { TextField } from "@material-ui/core";
+import TextField from "@material-ui/core/TextField";
 import * as React from "react";
 import { useState } from "react";
 import Button from "@material-ui/core/Button";
@@ -9,7 +9,10 @@ export const LoginForm = (props: { setUsername: (u: string) => void }) => {
   const submit = async () => {
     const result = await MessagesService.login(username);
     if (result.status === 200) {
-      MessagesService.token = result.data.accessToken;
+      const token = result.data.accessToken;
+      MessagesService.token = token;
+      localStorage.setItem("token", token);
+      localStorage.setItem("username", username);
       props.setUsername(username);
     }
   };

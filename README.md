@@ -2,7 +2,11 @@
 This is a basic structure / boilerplate for using AWS Lambda with PostgreSQL. It is still a work in progress, but much of the backend work is complete.
 
 ## Backend
-This is the only piece of work that has been completed for this so far, you can find it here: https://github.com/adcostanza/chat-app/tree/master/backend
+The backend is written with NodeJS in TypeScript for Lambda architecture for PostgreSQL on RDS. 
 
 ## Frontend
-This has not been started but will be shortly and will consume the serverless lambda API provided by the backend.
+The frontend is written using React in TypeScript and Material-UI components.
+
+### Demo
+Feel free to try it out yourself:
+https://adcostanza.github.io/chat-app/
