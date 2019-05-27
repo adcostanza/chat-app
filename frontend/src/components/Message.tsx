@@ -37,9 +37,14 @@ export const MessageComponent = (props: { messages: Message[] }) => {
     });
   };
 
+  let fromUser = props.messages[0].fromUser;
+  fromUser =
+    fromUser === MessagesService.username
+      ? props.messages[0].toUsers[0]
+      : fromUser;
   return (
     <Paper elevation={2} style={{ width: 400, height: 400, margin: 12 }}>
-      <b style={{ margin: 20 }}>Chat with {props.messages[0].fromUser}</b>
+      <b style={{ margin: 20 }}>Chat with {fromUser}</b>
       <div
         style={{
           display: "flex",
