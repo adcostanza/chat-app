@@ -4,7 +4,7 @@ import { Paper } from "@material-ui/core";
 import { EmbeddedChatForm } from "./EmbeddedChatForm";
 import { MessagesService } from "../messagesService";
 
-export const MessageComponent = (props: { messages: Message[] }) => {
+export const MessageGroup = (props: { messages: Message[] }) => {
   const renderMessages = () => {
     return props.messages.map(message => {
       const style =
@@ -43,16 +43,28 @@ export const MessageComponent = (props: { messages: Message[] }) => {
       ? props.messages[0].toUsers[0]
       : fromUser;
   return (
-    <Paper elevation={2} style={{ width: 400, height: 400, margin: 12 }}>
-      <b style={{ margin: 20 }}>Chat with {fromUser}</b>
+    <Paper
+      elevation={2}
+      style={{
+        width: 400,
+        height: 400,
+        margin: 12,
+        display: "flex",
+        flexDirection: "column"
+      }}
+    >
+      <h3 style={{ margin: 0, padding: 12 }}>Chat with {fromUser}</h3>
       <div
         style={{
           display: "flex",
           flexDirection: "column",
           overflowY: "scroll",
-          maxHeight: 250,
+          height: 230,
           width: "100%",
-          alignItems: "center"
+          alignItems: "center",
+          backgroundColor: "#f5f5f5",
+          paddingTop: 6,
+          paddingBottom: 6
         }}
       >
         {renderMessages()}
