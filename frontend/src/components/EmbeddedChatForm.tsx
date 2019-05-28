@@ -17,7 +17,7 @@ export const EmbeddedChatForm = (props: { to: string }) => {
         alignItems: "center",
         justifyContent: "center",
         flexDirection: "column",
-        alignSelf: "flexEnd"
+       justifySelf: "flexEnd"
       }}
     >
       <TextField

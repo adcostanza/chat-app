@@ -2,7 +2,7 @@ import * as React from "react";
 import { useEffect, useState } from "react";
 import { Message } from "../model";
 import { MessagesService } from "../messagesService";
-import { MessageComponent } from "./Message";
+import { MessageGroup } from "./MessageGroup";
 
 export const Messages = () => {
   const [messages, setMessages] = useState([] as Message[]);
@@ -47,10 +47,7 @@ export const Messages = () => {
     >
       {Object.keys(groupedMessages).map(fromUser => {
         return (
-          <MessageComponent
-            key={fromUser}
-            messages={groupedMessages[fromUser]}
-          />
+          <MessageGroup key={fromUser} messages={groupedMessages[fromUser]} />
         );
       })}
     </div>
